@@ -1,6 +1,7 @@
 import java.util.Scanner;
 
 public class Controller {
+
     public Controller() {
     }
 
@@ -18,55 +19,15 @@ public class Controller {
     }
 
     public void processOptions(String option, Scanner in) {
-        String userAction = "";
         switch (option) {
             case "1":
-                System.out.println("1) Warehouses\n2) Members\n3) Employees\n");
-                System.out.print("Enter option number: ");
-                userAction = in.nextLine();
-                switch (userAction) {
-                    case "1":
-                        this.addWarehouse(in);
-                        break;
-                    case "2":
-                        this.addMember(in);
-                        break;
-                    case "3":
-                        this.addEmployee(in);
-                        break;
-                }
+                this.addMenu(in);
                 break;
             case "2":
-                System.out.println("1) Warehouses\n2) Members\n3) Employees\n");
-                System.out.print("Enter option number: ");
-                userAction = in.nextLine();
-                switch (userAction) {
-                    case "1":
-                        this.deleteWarehouse(in);
-                        break;
-                    case "2":
-                        this.deleteMember(in);
-                        break;
-                    case "3":
-                        this.deleteEmployee(in);
-                        break;
-                }
+                this.deleteMenu(in);
                 break;
             case "3":
-                System.out.println("1) Warehouses\n2) Members\n3) Employees\n");
-                System.out.print("Enter option number: ");
-                userAction = in.nextLine();
-                switch (userAction) {
-                    case "1":
-                        this.searchWarehouse(in);
-                        break;
-                    case "2":
-                        this.searchMember(in);
-                        break;
-                    case "3":
-                        this.searchEmployee(in);
-                        break;
-                }
+                this.searchMenu(in);
                 break;
 
             case "4":
@@ -87,14 +48,66 @@ public class Controller {
         }
     }
 
+    private void searchMenu(Scanner in) {
+        String userAction = "";
+        System.out.println("1) Warehouses\n2) Members\n3) Employees\n");
+        System.out.print("Enter option number: ");
+        userAction = in.nextLine();
+        switch (userAction) {
+            case "1":
+                this.searchWarehouse(in);
+                break;
+            case "2":
+                this.searchMember(in);
+                break;
+            case "3":
+                this.searchEmployee(in);
+                break;
+        }
+    }
+
+    private void deleteMenu(Scanner in) {
+        String userAction = "";
+        System.out.println("1) Warehouses\n2) Members\n3) Employees\n");
+        System.out.print("Enter option number: ");
+        userAction = in.nextLine();
+        switch (userAction) {
+            case "1":
+                this.deleteWarehouse(in);
+                break;
+            case "2":
+                this.deleteMember(in);
+                break;
+            case "3":
+                this.deleteEmployee(in);
+                break;
+        }
+    }
+
+    private void addMenu(Scanner in) {
+        String userAction = "";
+        System.out.println("1) Warehouses\n2) Members\n3) Employees\n");
+        System.out.print("Enter option number: ");
+        userAction = in.nextLine();
+        switch (userAction) {
+            case "1":
+                this.addWarehouse(in);
+                break;
+            case "2":
+                this.addMember(in);
+                break;
+            case "3":
+                this.addEmployee(in);
+                break;
+        }
+    }
+
     private void addEmployee(Scanner in) {
         System.out.println("Enter employee id: ");
         int empID = Integer.parseInt(in.nextLine());
-        System.out.println("Enter employee salary: ");
-        float salary = Float.parseFloat(in.nextLine());
         System.out.println("Enter employee position: ");
         String position = in.nextLine();
-        this.model.addOrUpdateEmployee(empID, salary, position);
+        this.model.addOrUpdateEmployee(empID, position);
 
     }
 
@@ -256,4 +269,5 @@ public class Controller {
 
     private void reports(Scanner in) {
     }
+
 }

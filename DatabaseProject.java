@@ -36,6 +36,7 @@ public final class DatabaseProject {
         conn = initializeDB(DATABASE);
         Model model = new Model();
         Controller controller = new Controller(model);
+        model.setConnection(conn);
 
         Scanner in = new Scanner(System.in);
         String userAction = "";

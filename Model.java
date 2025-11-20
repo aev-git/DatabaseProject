@@ -1,3 +1,6 @@
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -87,25 +90,21 @@ public class Model {
 
     class Employee {
         int empID; // primary key
-        float salary;
         String position;
 
         protected Employee() {
             this.empID = 0;
-            this.salary = (float) 0.0;
             this.position = "";
         }
 
-        protected Employee(int empID, float salary, String position) {
+        protected Employee(int empID, String position) {
             this.empID = empID;
-            this.salary = salary;
             this.position = position;
         }
 
         @Override
         public String toString() {
-            return "employee id: " + this.empID + "\nsalary: $" + this.salary
-                    + "\nposition: " + this.position;
+            return "employee id: " + this.empID + "\nposition: " + this.position;
         }
     }
 
@@ -113,10 +112,13 @@ public class Model {
     Map<Integer, Member> members = new HashMap<Integer, Member>();
     Map<Integer, Employee> employees = new HashMap<Integer, Employee>();
 
+    Connection conn = null;
+
     public void addOrUpdateWarehouse(String address, String city, long phoneNumber,
             String managerName, int storageCapacity, int droneCapacity) {
         this.warehouses.put(address, new Warehouse(address, city, phoneNumber,
                 managerName, storageCapacity, droneCapacity));
+
     }
 
     public void addOrUpdateMember(int userID, String warehouseAddress, String firstName,
@@ -126,8 +128,23 @@ public class Model {
                 address, phoneNumber, email, startDate, warehouseDistance));
     }
 
-    public void addOrUpdateEmployee(int empID, float salary, String position) {
-        this.employees.put(empID, new Employee(empID, salary, position));
+    public void addOrUpdateEmployee(int empID, String position) {
+        this.employees.put(empID, new Employee(empID, position));
+        PreparedStatement ps = null;
+        try {
+            ps = this.conn.prepareStatement("INSERT INTO Employee VALUES (?, ?)");
+            ps.setInt(1, empID);
+            ps.setString(2, position);
+            ps.execute();
+        } catch (SQLException e) {
+            System.out.println(e);
+        } finally {
+            try {
+                ps.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     public void deleteWarehouse(String address) {
@@ -162,4 +179,9 @@ public class Model {
         }
         return this.employees.get(empID);
     }
+
+    public void setConnection(Connection conn) {
+        this.conn = conn;
+    }
+
 }
